@@ -63,6 +63,6 @@ class Server:
         return im
 
 
+server = Server()
 if __name__ == "__main__":
-    server = Server()
     uvicorn.run(server, host="0.0.0.0", port=80)
