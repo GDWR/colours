@@ -1,7 +1,8 @@
+import math
 from io import BytesIO
 
 import uvicorn
-from PIL import Image
+from PIL import Image, ImageFont, ImageColor
 from PIL.ImageDraw import ImageDraw
 
 
@@ -55,7 +56,10 @@ class Server:
         :return: Image
         """
 
-        im = Image.new('RGB', (width, height))
+        im = Image.new('RGBA', (width, height), (255, 0, 0, 0))
+
+        fnt_size = round(40 / (len(hex_codes) / 5))
+        fnt = ImageFont.truetype("LemonMilkMedium.otf", fnt_size)
 
         draw = ImageDraw(im)
 
@@ -64,9 +68,21 @@ class Server:
             x1 = x0 + (width / len(hex_codes))
 
             try:
-                draw.rectangle((x0, 0, x1, height), fill=code)
+                colour = ImageColor.getrgb(code)
             except ValueError:
-                draw.rectangle((x0, 0, x1, height), fill=f"#{code}")
+                colour = None
+
+            if colour is None:
+                code = f"#{code}"
+                colour = ImageColor.getrgb(code)
+
+            draw.rectangle((x0, 0, x1, height), fill=colour)
+
+            text_im_width = math.ceil(x1 - x0)
+            text_im = Image.new('RGBA', (text_im_width, math.floor(fnt_size * 1.7)), (0, 0, 0, 100))
+            ImageDraw(text_im).text(((text_im_width // 2) - (fnt.getlength(code) // 2), 0), code, font=fnt)
+
+            im.paste(text_im, box=(math.floor(x0), 0), mask=text_im)
 
         return im
 
