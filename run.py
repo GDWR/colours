@@ -1,19 +1,39 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler
 from io import BytesIO
 
+import uvicorn
 from PIL import Image
 from PIL.ImageDraw import ImageDraw
 
 
-class ColourHandler(BaseHTTPRequestHandler):
+class Server:
+    async def __call__(self, scope, receive, send):
+        path = scope["path"]
 
-    def do_GET(self):
-        colours = self.path[1:].split("&")
-        im = self.generate_image_from_hexes(*colours)
+        try:
+            im = self.generate_image_from_hexes(*path[1:].split("&"))
+        except ValueError:
+            print(f"Couldn't handle: {path}")
+            await send({
+                'type': 'http.response.start',
+                'status': 400,
+            })
+            return
+
+        await send({
+            'type': 'http.response.start',
+            'status': 200,
+            'headers': [
+                [b'content-type', b'image/jpeg'],
+            ]
+        })
 
         with BytesIO() as buffer:
             im.save(buffer, format="JPEG")
-            self.wfile.write(buffer.getvalue())
+
+            await send({
+                'type': 'http.response.body',
+                'body': buffer.getvalue(),
+            })
 
     @staticmethod
     def generate_image_from_hexes(*hex_codes: str, width: int = 1920, height: int = 1080) -> Image:
@@ -44,5 +64,5 @@ class ColourHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    with HTTPServer(("0.0.0.0", 80), ColourHandler) as server:
-        server.serve_forever()
+    server = Server()
+    uvicorn.run(server, host="0.0.0.0", port=80)
