@@ -9,6 +9,13 @@ class Server:
     async def __call__(self, scope, receive, send):
         path = scope["path"]
 
+        if path == "/favicon.ico":
+            await send({
+                'type': 'http.response.start',
+                'status': 404,
+            })
+            return
+
         try:
             im = self.generate_image_from_hexes(*path[1:].split("&"))
         except ValueError:
