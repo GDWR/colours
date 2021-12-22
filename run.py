@@ -16,8 +16,10 @@ class Server:
             })
             return
 
+        colours = path[1:].replace("&", "-").split("-")
+
         try:
-            im = self.generate_image_from_hexes(*path[1:].split("&"))
+            im = self.generate_image_from_hexes(*colours)
         except ValueError:
             await send({
                 'type': 'http.response.start',
