@@ -12,7 +12,6 @@ class Server:
         try:
             im = self.generate_image_from_hexes(*path[1:].split("&"))
         except ValueError:
-            print(f"Couldn't handle: {path}")
             await send({
                 'type': 'http.response.start',
                 'status': 400,
@@ -23,12 +22,12 @@ class Server:
             'type': 'http.response.start',
             'status': 200,
             'headers': [
-                [b'content-type', b'image/jpeg'],
+                [b'content-type', b'image/png'],
             ]
         })
 
         with BytesIO() as buffer:
-            im.save(buffer, format="JPEG")
+            im.save(buffer, format="PNG")
 
             await send({
                 'type': 'http.response.body',
