@@ -5,6 +5,10 @@ import uvicorn
 from PIL import Image, ImageFont, ImageColor
 from PIL.ImageDraw import ImageDraw
 
+colour_mapping = {
+    "fuschia": (255, 0, 255)
+}
+
 
 class Server:
     async def __call__(self, scope, receive, send):
@@ -71,6 +75,9 @@ class Server:
                 colour = ImageColor.getrgb(code)
             except ValueError:
                 colour = None
+
+            if colour is None:
+                colour = colour_mapping.get(code.lower())
 
             if colour is None:
                 code = f"#{code}"
