@@ -1,7 +1,6 @@
 import math
 from io import BytesIO
 
-import uvicorn
 from PIL import Image, ImageFont, ImageColor
 from PIL.ImageDraw import ImageDraw
 
@@ -107,5 +106,9 @@ class Server:
 
 
 server = Server()
+
 if __name__ == "__main__":
-    uvicorn.run(server, host="0.0.0.0", port=80)
+    import os
+    import uvicorn
+
+    uvicorn.run(server, host="0.0.0.0", port=int(os.environ.get("PORT", "8080")))
