@@ -1,13 +1,17 @@
 import math
-from io import BytesIO
-
 from PIL import Image, ImageFont, ImageColor
 from PIL.ImageDraw import ImageDraw
+from io import BytesIO
 
-colour_mapping = {"fuschia": (255, 0, 255), "griff": (252, 132, 1)}
+colour_mapping = {
+    "fuschia": (255, 0, 255),
+    "griff": (252, 132, 1)
+}
 
 
 class Server:
+    """ASGI Server implementation."""
+
     async def __call__(self, scope, receive, send):
         path = scope["path"]
 
@@ -23,7 +27,7 @@ class Server:
         colours = path[1:].replace("&", "-").split("-")
 
         try:
-            im = self.generate_image_from_hexes(*colours)
+            image = self.generate_image_from_hexes(*colours)
         except ValueError:
             await send(
                 {
@@ -44,7 +48,7 @@ class Server:
         )
 
         with BytesIO() as buffer:
-            im.save(buffer, format="PNG")
+            image.save(buffer, format="PNG")
 
             await send(
                 {
@@ -55,7 +59,7 @@ class Server:
 
     @staticmethod
     def generate_image_from_hexes(
-        *hex_codes: str, width: int = 1920, height: int = 1080
+            *hex_codes: str, width: int = 1920, height: int = 1080
     ) -> Image:
         """
         From a list of hex codes in the format #FFFFFF
@@ -75,8 +79,8 @@ class Server:
         draw = ImageDraw(im)
 
         for i, code in enumerate(hex_codes):
-            x0 = i * (width / len(hex_codes))
-            x1 = x0 + (width / len(hex_codes))
+            left = i * (width / len(hex_codes))
+            right = left + (width / len(hex_codes))
 
             try:
                 colour = ImageColor.getrgb(code)
@@ -90,9 +94,9 @@ class Server:
                 code = f"#{code}"
                 colour = ImageColor.getrgb(code)
 
-            draw.rectangle((x0, 0, x1, height), fill=colour)
+            draw.rectangle((left, 0, right, height), fill=colour)
 
-            text_im_width = math.ceil(x1 - x0)
+            text_im_width = math.ceil(right - left)
             text_im = Image.new(
                 "RGBA", (text_im_width, math.floor(fnt_size * 1.7)), (0, 0, 0, 100)
             )
@@ -100,15 +104,15 @@ class Server:
                 ((text_im_width // 2) - (fnt.getlength(code) // 2), 0), code, font=fnt
             )
 
-            im.paste(text_im, box=(math.floor(x0), 0), mask=text_im)
+            im.paste(text_im, box=(math.floor(left), 0), mask=text_im)
 
         return im
 
 
-server = Server()
-
 if __name__ == "__main__":
     import os
     import uvicorn
+
+    server = Server()
 
     uvicorn.run(server, host="0.0.0.0", port=int(os.environ.get("PORT", "8080")))
