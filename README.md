@@ -1,15 +1,15 @@
 # Colours
 
-A Heroku webservice to serve images generated from colours passed in via request path.
+A webservice to serve images generated from colours passed in via request path.
 
-Hosted at https://griff-colour.herokuapp.com/
+Hosted at https://colours.gdwr.me/griff
 
 Pass in colours using `-` or `&` to list colours.
 
 Example for Orange and Red:
-https://griff-colour.herokuapp.com/orange&red
+https://colours.gdwr.me/orange&red
 
 Example for Blue and Green:
-https://griff-colour.herokuapp.com/0000FF-00FF00
+https://colours.gdwr.me/0000FF-00FF00
 
-<img src="https://griff-colour.herokuapp.com/red-green-blue-orange-yellow" alt="Example Image">
+<img src="https://colours.gdwr.me/red-green-blue-orange-yellow" alt="Example Image">
