@@ -5,7 +5,7 @@ import uvicorn
 from PIL import Image, ImageFont, ImageColor
 from PIL.ImageDraw import ImageDraw
 
-colour_mapping = {"fuschia": (255, 0, 255)}
+colour_mapping = {"fuschia": (255, 0, 255), "griff": (252, 132, 1)}
 
 
 class Server:
