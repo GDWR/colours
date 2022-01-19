@@ -110,9 +110,7 @@ class Server:
 
 
 if __name__ == "__main__":
-    import os
     import uvicorn
 
     server = Server()
-
-    uvicorn.run(server, host="0.0.0.0", port=int(os.environ.get("PORT", "8080")))
+    uvicorn.run(server, host="0.0.0.0", port=8080)
