@@ -13,9 +13,3 @@ Example for Blue and Green:
 https://colours.gdwr.me/0000FF-00FF00
 
 <img src="https://colours.gdwr.me/red-green-blue-orange-yellow" alt="Example Image">
-
-## Environment variables
-
-| Name | Description          | Default |
-|------|----------------------|---------|
-| PORT | Host Port to bind to | 8080    |
