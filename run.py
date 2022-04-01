@@ -1,6 +1,6 @@
 from io import BytesIO
 
-from business import generate_image_from_hexes
+from colours import generate_image_from_hexes
 
 
 class Server:
