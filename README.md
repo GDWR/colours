@@ -12,4 +12,13 @@ https://colours.friendo.dev/orange&red
 Example for Blue and Green:
 https://colours.friendo.dev/0000FF-00FF00
 
-<img src="https://colours.friendo.dev/red-green-blue-orange-yellow" alt="Example Image">
+Example for random colours:
+https://colours.friendo.dev/random-random-random-random-random
+
+---
+
+## Example colours
+<img src="https://colours.friendo.dev/red-green-blue-orange-yellow" alt="Example Colours">
+
+## Random colours
+<img src="https://colours.friendo.dev/random-random-random-random-random" alt="Example Random Colours">
