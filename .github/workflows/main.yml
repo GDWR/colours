@@ -1,0 +1,12 @@
+name: Main
+
+on:
+  push:
+    branches: main
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      latest: true
+      push: true
