@@ -1,6 +1,7 @@
 from io import BytesIO
 
 from colours import generate_image_from_hexes
+from landing_page import LANDING_PAGE_HTML
 
 
 class Server:
@@ -14,6 +15,24 @@ class Server:
                 {
                     "type": "http.response.start",
                     "status": 404,
+                }
+            )
+            return
+
+        if path == "/":
+            await send(
+                {
+                    "type": "http.response.start",
+                    "status": 200,
+                    "headers": [
+                        [b"content-type", b"text/html"],
+                    ],
+                }
+            )
+            await send(
+                {
+                    "type": "http.response.body",
+                    "body": LANDING_PAGE_HTML,
                 }
             )
             return
