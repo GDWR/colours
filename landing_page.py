@@ -1,4 +1,4 @@
-LANDING_PAGE_HTML = b"""
+LANDING_PAGE_HTML = """
 <!DOCTYPE html>
 <html lang='en'>
 <head>
@@ -107,4 +107,4 @@ LANDING_PAGE_HTML = b"""
     </div>
 </body>
 </html>
-"""
+""".encode("utf-8")
