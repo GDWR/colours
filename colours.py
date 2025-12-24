@@ -5,7 +5,9 @@ from PIL.ImageDraw import ImageDraw
 
 colour_mapping = {
     "fuschia": (255, 0, 255),
-    "griff": (252, 132, 1)
+    "griff": (252, 132, 1),
+    "joe": (255, 255, 255),
+    "xith": (239, 57, 142),
 }
 
 
